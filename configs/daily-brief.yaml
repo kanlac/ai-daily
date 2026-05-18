@@ -1,0 +1,148 @@
+project:
+  name: daily-brief
+  timezone: Asia/Shanghai
+schedule:
+  time: "07:00"
+paths:
+  report: reports/{date}-daily-brief.html
+  memory: data/memory.sqlite3
+  run_dir: data/runs/{date}
+  push_payload: reports/push-payload-{date}.json
+sections:
+  - id: tech_news
+    title: 科技新闻
+    description: 科技深度、AI infra、Builder 实践与重要研究/工程变化。
+  - id: tool_engineering
+    title: 工具工程更新
+    description: Claude Code、Codex、OpenAI、Anthropic、Hermes、GitHub 等工具链更新。
+  - id: social_blogs
+    title: 社媒博客
+    description: 公开社媒、博客、Telegram 公共频道或用户导出线索。
+  - id: video
+    title: 视频
+    description: YouTube Builder 访谈、发布会与 demo 的结构化摘要。
+  - id: product_ideas
+    title: 产品/业务创意
+    description: 来自 Reddit/社区真实痛点的 AI product idea。
+sources:
+  - id: sample_fixture
+    type: fixture
+    name: 内置离线样例数据
+    enabled: false
+    max_items: 20
+  - id: openai_news
+    type: rss
+    name: OpenAI News
+    enabled: true
+    url: https://openai.com/news/rss.xml
+    max_items: 4
+    section: tech_news
+    tags: ["OpenAI", "AI infra"]
+    lookback_hours: 168
+  - id: openai_blog
+    type: rss
+    name: OpenAI Blog
+    enabled: true
+    url: https://openai.com/blog/rss.xml
+    max_items: 3
+    section: tool_engineering
+    tags: ["OpenAI", "Builder tools"]
+    lookback_hours: 168
+  - id: simon_willison
+    type: rss
+    name: Simon Willison Blog
+    enabled: true
+    url: https://simonwillison.net/atom/everything/
+    max_items: 3
+    section: social_blogs
+    tags: ["Blog", "Builder"]
+    lookback_hours: 168
+  - id: latent_space
+    type: rss
+    name: Latent Space
+    enabled: true
+    url: https://www.latent.space/feed
+    max_items: 3
+    section: social_blogs
+    tags: ["AI", "Builder", "Podcast"]
+    lookback_hours: 168
+  - id: hnrss_ai
+    type: rss
+    name: Hacker News AI Search RSS
+    enabled: true
+    url: https://hnrss.org/newest?q=AI
+    max_items: 3
+    section: tech_news
+    tags: ["HN", "AI"]
+    lookback_hours: 48
+  - id: claude_code_releases
+    type: github_updates
+    name: Anthropic Claude Code Releases
+    enabled: true
+    url: https://api.github.com/repos/anthropics/claude-code/releases
+    max_items: 3
+    section: tool_engineering
+    tags: ["Claude Code", "Anthropic", "Release"]
+    lookback_hours: 168
+  - id: openai_codex_releases
+    type: github_updates
+    name: OpenAI Codex Releases
+    enabled: true
+    url: https://api.github.com/repos/openai/codex/releases
+    max_items: 3
+    section: tool_engineering
+    tags: ["Codex", "OpenAI", "Release"]
+    lookback_hours: 168
+  - id: hermes_agent_releases
+    type: github_updates
+    name: NousResearch Hermes Agent Releases
+    enabled: true
+    url: https://api.github.com/repos/NousResearch/hermes-agent/releases
+    max_items: 3
+    section: tool_engineering
+    tags: ["Hermes", "Agent", "Release"]
+    lookback_hours: 168
+  - id: reddit_smallbusiness
+    type: reddit
+    name: Reddit r/smallbusiness new posts
+    enabled: true
+    url: https://www.reddit.com/r/smallbusiness/new.json?limit=15
+    max_items: 3
+    section: product_ideas
+    tags: ["Reddit", "SMB", "Pain point"]
+    lookback_hours: 72
+  - id: reddit_startups
+    type: reddit
+    name: Reddit r/startups new posts
+    enabled: true
+    url: https://www.reddit.com/r/startups/new.json?limit=15
+    max_items: 3
+    section: product_ideas
+    tags: ["Reddit", "Startup", "Pain point"]
+    lookback_hours: 72
+  - id: youtube_ycombinator
+    type: youtube
+    name: Y Combinator YouTube
+    enabled: true
+    url: https://www.youtube.com/feeds/videos.xml?channel_id=UCcefcZRL2oaA_uBNeo5UOWg
+    max_items: 3
+    section: video
+    tags: ["YouTube", "YC", "Builder"]
+    lookback_hours: 336
+  - id: telegram_public_placeholder
+    type: telegram
+    name: Telegram public channels boundary
+    enabled: false
+    url: ""
+    max_items: 0
+thresholds:
+  min_loops: 5
+  max_loops: 10
+  default_loops: 7
+  pass_score: 8.0
+  duplicate_jaccard: 0.78
+  related_jaccard: 0.30
+push:
+  adapter: codex_app_webhook
+  codex_app_webhook_url_env: CODEX_APP_WEBHOOK_URL
+  dry_run_without_webhook: true
