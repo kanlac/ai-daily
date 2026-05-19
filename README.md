@@ -3,6 +3,8 @@
 面向个人 builder 的本地优先每日新闻推送项目。它每天早上（默认 `07:00`）整理科技深度文章、工具工程更新、社媒博客、视频内容和产品/业务创意，生成一份自适应 HTML 报告，并通过 Codex App webhook adapter 创建自动化复盘任务。
 
 > 当前版本默认执行真实只读采集：RSS/Atom、GitHub Releases、Reddit public JSON、YouTube channel feed。离线 fixture 仍保留在配置中，但默认关闭，主要用于测试和回归。
+>
+> 真正的验收标准见：`docs/criteria/daily-brief-acceptance-criteria.md`。当前最高优先级缺口是 **P0.2 自动抓取 YouTube 字幕/transcript**；Telegram 如果需要登录态，先不进入 P0。
 
 ## 快速开始
 
@@ -91,6 +93,7 @@ uv run python -m daily_brief.cli run --date 2026-05-18 --loops 7
 - 不读取 Cookie、密码、session token；配置中出现 `password/cookie/session` 会被拒绝。
 - Telegram 私域频道不自动抓取；只支持公开 RSS/preview、用户导出或明确授权 API。
 - Browser/Chrome 采集通过 `collectors/browser_prompts.py` 生成只读任务提示，由外部 Codex/Hermes browser-use worker 执行。
+- 不需要在 repo 内接入通用 LLM provider；这是个人简报，最终编辑、翻译、判断可以由 Codex/Hermes agent 在自动化任务中直接完成。代码保留 deterministic fallback，保证测试和采集不依赖模型。
 
 ## 目录结构
 
@@ -117,8 +120,7 @@ tests/                            # TDD 测试
 
 ## 后续扩展建议
 
-1. 把 RSS/GitHub collector 接入真实源，并保留失败 source 的 degraded 状态。
+1. 实现 P0.2：YouTube 自动字幕/transcript 抓取，并在无字幕时显式降级标注。
 2. 用 Codex/Hermes browser-use worker 执行 `browser_prompts.py` 中的只读 Chrome 采集任务。
-3. 为 YouTube 增加字幕抓取与无字幕低置信 fallback。
-4. 引入 LLM 翻译/摘要 provider，但保持 dry-run fixture 测试不依赖网络。
-5. 将 memory 从 Jaccard 扩展到本地 embedding/向量索引，但保留可解释 reason code。
+3. 优化真实日报的筛选和排序，避免低信号条目占据正文。
+4. 将 memory 从 Jaccard 扩展到更强的本地相似度判断，但保留可解释 reason code。
