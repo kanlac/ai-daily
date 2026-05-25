@@ -177,7 +177,13 @@ def render_markdown(markdown: str) -> str:
                 level = 2
             blocks.append(f"<h{level}>{inline_md(text)}</h{level}>")
             continue
-        bullet = re.match(r"^(?:[-*+]\s+|\d+[\.、]\s+)(.+)$", stripped)
+        ordered = re.match(r"^(\d+)[\.、]\s+(.+)$", stripped)
+        if ordered:
+            flush_paragraph()
+            flush_list()
+            blocks.append(f"<h3>{ordered.group(1)}. {inline_md(ordered.group(2).strip())}</h3>")
+            continue
+        bullet = re.match(r"^[-*+]\s+(.+)$", stripped)
         if bullet:
             flush_paragraph()
             list_items.append(bullet.group(1).strip())
