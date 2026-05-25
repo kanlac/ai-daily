@@ -128,6 +128,7 @@ sources:
     max_items: 3
     section: video
     tags: ["YouTube", "YC", "Builder"]
+    transcript_languages: ["zh-Hans", "zh", "en"]
     lookback_hours: 336
   - id: telegram_public_placeholder
     type: telegram

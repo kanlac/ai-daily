@@ -1,0 +1,13 @@
+{
+  "repo": "ai-daily",
+  "homepage": "https://kanlac.github.io/ai-daily",
+  "updated_at": "2026-05-25T02:57:39.823562+00:00",
+  "reports": [
+    {
+      "date": "2026-05-25",
+      "title": "AI 日报｜2026-05-25",
+      "summary": "今天的主线不是单一模型发布，而是 AI 产业进入“资本、算力、监管和企业落地”同时加速的阶段：OpenAI/Anthropic 继续扩大国际与算力布局，DeepSeek 价格战继续压低推理成本，企业 Agent 与 AI 搜索基础设施开始从概念走向真实采购。",
+      "path": "reports/2026-05-25/"
+    }
+  ]
+}

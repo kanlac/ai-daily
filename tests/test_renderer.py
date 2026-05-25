@@ -25,3 +25,5 @@ def test_renderer_contains_required_daily_brief_blocks():
     assert "@media (max-width: 768px)" in html
     assert "@media print" in html
     assert "Product Idea Canvas" in html
+    assert "需 LLM 精修" not in html
+    assert "中文翻译草稿" not in html

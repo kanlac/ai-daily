@@ -4,7 +4,7 @@
 
 > 当前版本默认执行真实只读采集：RSS/Atom、GitHub Releases、Reddit public JSON、YouTube channel feed。离线 fixture 仍保留在配置中，但默认关闭，主要用于测试和回归。
 >
-> 真正的验收标准见：`docs/criteria/daily-brief-acceptance-criteria.md`。当前最高优先级缺口是 **P0.2 自动抓取 YouTube 字幕/transcript**；Telegram 如果需要登录态，先不进入 P0。
+> 真正的验收标准见：`docs/criteria/daily-brief-acceptance-criteria.md`。当前 P0 已通过：真实采集、YouTube transcript 自动抓取、HTML 主交付、记忆去重、7:00 自动化 dry-run/push contract 与 7 轮评估 gate 均可运行；Telegram 如果需要登录态，仍不进入 P0。
 
 ## 快速开始
 
@@ -25,10 +25,32 @@ python3 -m daily_brief.cli run --config configs/daily-brief.yaml --date 2026-05-
 ## 生成物
 
 - `reports/{date}-daily-brief.html`：桌面优先、手机自适应的 HTML 日报。
+- `docs/reports/{date}/index.html`：GitHub Pages 发布用的完整网页日报。
+- `docs/index.html`：GitHub Pages 首页和历史归档。
+- `docs/reports/{date}/report.md`：网页对应的 Markdown 源稿，便于复盘和重渲染。
 - `reports/evaluations/{date}-scorecard.json`：每轮评分记录，默认 7 轮。
 - `reports/push-payload-{date}.json`：Codex App webhook payload；未配置 webhook 时为 dry-run。
 - `data/memory.sqlite3`：跨日记忆、去重、关联和评分历史。
 - `data/runs/{date}/run.json`：本次运行 manifest。
+
+## GitHub Pages 发布
+
+仓库发布为 GitHub Pages 站点，默认使用 `docs/` 目录：
+
+- 首页：`https://kanlac.github.io/ai-daily/`
+- 最新一期：`https://kanlac.github.io/ai-daily/latest/`
+- 日期页：`https://kanlac.github.io/ai-daily/reports/YYYY-MM-DD/`
+
+把一份 Markdown 日报渲染成网页并更新归档：
+
+```bash
+python3 scripts/publish_pages_report.py \
+  --date 2026-05-25 \
+  --input /path/to/report.md \
+  --homepage-url https://kanlac.github.io/ai-daily
+```
+
+自动化任务可在生成 Markdown 后加上 `--commit --push`，然后向 Telegram 推送日期页链接。
 
 ## 当前真实采集源
 
@@ -42,7 +64,7 @@ python3 -m daily_brief.cli run --config configs/daily-brief.yaml --date 2026-05-
 - OpenAI Codex GitHub Releases
 - NousResearch Hermes Agent GitHub Releases
 - Reddit `r/smallbusiness` / `r/startups` public JSON
-- Y Combinator YouTube channel RSS
+- Y Combinator YouTube channel RSS + public transcript/subtitle attempt per retained video
 
 Telegram 私域频道和 Chrome 登录态浏览采集不默认启用；它们需要用户显式提供公开导出/API 或外部只读 browser-use worker。
 
@@ -120,7 +142,7 @@ tests/                            # TDD 测试
 
 ## 后续扩展建议
 
-1. 实现 P0.2：YouTube 自动字幕/transcript 抓取，并在无字幕时显式降级标注。
-2. 用 Codex/Hermes browser-use worker 执行 `browser_prompts.py` 中的只读 Chrome 采集任务。
-3. 优化真实日报的筛选和排序，避免低信号条目占据正文。
+1. 用 Codex/Hermes browser-use worker 执行 `browser_prompts.py` 中的只读 Chrome 采集任务。
+2. 优化真实日报的筛选和排序，避免低信号条目占据正文。
+3. 将 YouTube transcript 进一步升级为 timestamped chapter summary。
 4. 将 memory 从 Jaccard 扩展到更强的本地相似度判断，但保留可解释 reason code。

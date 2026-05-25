@@ -9,6 +9,7 @@ from typing import Sequence
 
 from .config import BriefConfig, ConfigError, load_config
 from .evaluator import run_evaluation_loops
+from .editorial import apply_editorial_overrides, editorial_overrides_path
 from .memory import MemoryStore
 from .collectors.runner import collect_sources
 from .models import PushTask, RunManifest
@@ -52,9 +53,12 @@ def _cmd_run(args: argparse.Namespace) -> int:
     store = MemoryStore(_format_path(cfg.paths.memory, run_date))
     store.initialize()
     items, coverage = collect_sources(cfg.sources, run_date)
+    editorial_applied = apply_editorial_overrides(items, editorial_overrides_path(run_date))
+    if editorial_applied:
+        coverage["editorial_overrides_applied"] = editorial_applied
     decisions = {}
     for item in items:
-        decision = store.dedup_item(item)
+        decision = store.dedup_item(item, run_date=run_date)
         decisions[item.id] = decision
         store.record_collected_item(item, run_date=run_date, decision=decision)
     report = build_report_from_items(run_date, items, decisions, cfg.sections, source_coverage=coverage)

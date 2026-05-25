@@ -124,6 +124,18 @@ def jaccard_similarity(a: str, b: str) -> float:
     return len(left & right) / len(left | right)
 
 
+def _history_query(base_sql: str, run_date: str | None) -> str:
+    if run_date:
+        return f"{base_sql} AND run_date != ? ORDER BY run_date DESC LIMIT 1"
+    return f"{base_sql} ORDER BY run_date DESC LIMIT 1"
+
+
+def _history_params(base_params: tuple[str, ...], run_date: str | None) -> tuple[str, ...]:
+    if run_date:
+        return (*base_params, run_date)
+    return base_params
+
+
 @dataclass(slots=True)
 class StoredItem:
     id: str
@@ -243,15 +255,15 @@ class MemoryStore:
                         (item.id, related_id, decision.reason_code, decision.similarity_score),
                     )
 
-    def dedup_item(self, item: CollectedItem) -> DedupDecision:
+    def dedup_item(self, item: CollectedItem, run_date: str | None = None) -> DedupDecision:
         canonical_url = canonicalize_url(item.canonical_url or item.url)
         text_hash = fingerprint_text(item.content_text or item.raw_excerpt or item.title)
         normalized_title = normalize_title(item.title)
 
         with self.connect() as connection:
             canonical_match = connection.execute(
-                "SELECT * FROM items WHERE canonical_url = ? AND id != ? ORDER BY run_date DESC LIMIT 1",
-                (canonical_url, item.id),
+                _history_query("SELECT * FROM items WHERE canonical_url = ? AND id != ?", run_date),
+                _history_params((canonical_url, item.id), run_date),
             ).fetchone()
             if canonical_match:
                 return DedupDecision(
@@ -266,8 +278,8 @@ class MemoryStore:
                 )
 
             text_match = connection.execute(
-                "SELECT * FROM items WHERE text_hash = ? AND id != ? ORDER BY run_date DESC LIMIT 1",
-                (text_hash, item.id),
+                _history_query("SELECT * FROM items WHERE text_hash = ? AND id != ?", run_date),
+                _history_params((text_hash, item.id), run_date),
             ).fetchone()
             if text_match:
                 return DedupDecision(
@@ -283,7 +295,7 @@ class MemoryStore:
 
             related: list[tuple[str, float, str]] = []
             duplicate_candidate: tuple[str, float] | None = None
-            for stored in self._iter_items(connection):
+            for stored in self._iter_items(connection, exclude_run_date=run_date):
                 if stored.id == item.id:
                     continue
                 title_similarity = jaccard_similarity(normalized_title, stored.normalized_title)
@@ -333,10 +345,16 @@ class MemoryStore:
             explanation="未命中 URL、文本指纹或近似标题重复。",
         )
 
-    def _iter_items(self, connection: sqlite3.Connection) -> Iterable[StoredItem]:
-        rows = connection.execute(
-            "SELECT id, title, normalized_title, canonical_url, text_hash, content_text, run_date FROM items"
-        ).fetchall()
+    def _iter_items(self, connection: sqlite3.Connection, exclude_run_date: str | None = None) -> Iterable[StoredItem]:
+        if exclude_run_date:
+            rows = connection.execute(
+                "SELECT id, title, normalized_title, canonical_url, text_hash, content_text, run_date FROM items WHERE run_date != ?",
+                (exclude_run_date,),
+            ).fetchall()
+        else:
+            rows = connection.execute(
+                "SELECT id, title, normalized_title, canonical_url, text_hash, content_text, run_date FROM items"
+            ).fetchall()
         for row in rows:
             yield StoredItem(
                 id=str(row["id"]),

@@ -21,7 +21,7 @@ Webhook contract:
 - Set `CODEX_APP_WEBHOOK_URL` to the Codex App Server webhook endpoint.
 - The payload is JSON with `target=codex_app`, `type=daily_news_push_task`, and a `task` object containing title, summary, report path, scorecard path, run manifest path, and suggested actions.
 - This is a personal brief: the Codex/Hermes agent may perform final editorial synthesis, translation, ranking, and HTML polish directly from collected evidence. Do not add a customer-facing LLM provider layer to the repo.
-- P0 criteria are tracked in `docs/criteria/daily-brief-acceptance-criteria.md`; the main open P0 gap is automatic YouTube transcript/subtitle fetch.
+- P0 criteria are tracked in `docs/criteria/daily-brief-acceptance-criteria.md`; the 2026-05-19 final run passes P0, including automatic YouTube transcript/subtitle fetch and visible transcript status in the HTML.
 - If the env var is absent, the runner performs a dry-run and writes the payload locally instead of failing.
 
 Safety:

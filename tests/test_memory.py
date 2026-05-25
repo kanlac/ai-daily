@@ -76,3 +76,16 @@ def test_memory_store_dedup_and_related_ids(tmp_path):
     assert related_decision.status == "related"
     assert "old-1" in related_decision.related_ids
     assert related_decision.reason_code in {"jaccard_similarity", "shared_terms"}
+
+
+def test_memory_store_dedup_ignores_same_day_rerun(tmp_path):
+    db_path = tmp_path / "memory.sqlite3"
+    store = MemoryStore(db_path)
+    store.initialize()
+    first = make_item("first-run", "Claude Code v2.1.143", "https://example.com/claude/v2.1.143", "Claude Code release notes")
+    rerun = make_item("rerun-different-id", "Claude Code v2.1.143", "https://example.com/claude/v2.1.143", "Claude Code release notes")
+    store.record_collected_item(first, run_date="2026-05-19")
+
+    decision = store.dedup_item(rerun, run_date="2026-05-19")
+
+    assert decision.status == "new"

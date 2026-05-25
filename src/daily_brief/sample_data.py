@@ -209,13 +209,15 @@ def build_report_from_items(
                 id=f"B-{index:03d}",
                 collected_item_id=item.id,
                 section=section_id,
-                title=item.title,
-                original_excerpt=item.raw_excerpt,
+                title=_brief_title(item),
+                original_excerpt=_original_excerpt(item),
                 zh_translation=str(item.metadata.get("zh_translation", _fallback_translation(item))),
                 summary_zh=str(item.metadata.get("summary_zh", _fallback_summary(item, section_id))),
                 why_it_matters=str(item.metadata.get("why_it_matters", _fallback_why_it_matters(item, section_id))),
                 builder_takeaway=str(item.metadata.get("builder_takeaway", _fallback_builder_takeaway(item, section_id))),
                 source_links=[item.canonical_url],
+                original_title=str(item.metadata.get("original_title", item.title)),
+                one_sentence=str(item.metadata.get("one_sentence", _fallback_one_sentence(item, section_id))),
                 dedup_status=decision.status,
                 duplicate_of=decision.duplicate_of,
                 relation_ids=decision.related_ids,
@@ -225,6 +227,7 @@ def build_report_from_items(
                 source_title=f"{source_id} · {item.author}",
                 published_at=item.published_at,
                 tags=_coerce_tags(item.metadata.get("tags", [])),
+                evidence_metadata=_evidence_metadata(item),
             )
         )
 
@@ -266,6 +269,63 @@ def build_report_from_items(
     )
 
 
+def _brief_title(item: CollectedItem) -> str:
+    title_zh = str(item.metadata.get("title_zh", "")).strip()
+    return title_zh or _fallback_title_zh(item)
+
+
+def _fallback_title_zh(item: CollectedItem) -> str:
+    if item.language.lower().startswith("zh"):
+        return item.title
+    source_hint = str(item.metadata.get("source_name", item.source_id))
+    return f"{source_hint}：{item.title}"
+
+
+def _fallback_one_sentence(item: CollectedItem, section_id: str) -> str:
+    summary = str(item.metadata.get("summary_zh", "")).strip()
+    if summary:
+        return summary[:90]
+    prefix = {
+        "tech_news": "科技新闻",
+        "tool_engineering": "工具更新",
+        "social_blogs": "博客/社媒",
+        "video": "视频",
+        "product_ideas": "产品线索",
+    }.get(section_id, "线索")
+    return f"{prefix}：{_fallback_title_zh(item)[:72]}"
+
+
+def _original_excerpt(item: CollectedItem) -> str:
+    status = str(item.metadata.get("transcript_status", "")).strip()
+    transcript_excerpt = str(item.metadata.get("transcript_excerpt", "")).strip()
+    if item.source_type == "youtube" and status == "fetched" and transcript_excerpt:
+        return transcript_excerpt
+    if item.source_type == "youtube" and status and "transcript_status=" not in item.raw_excerpt:
+        note = str(item.metadata.get("transcript_note", f"transcript_status={status}; low-confidence feed fallback"))
+        return f"{note}. Feed fallback: {item.raw_excerpt}"
+    return item.raw_excerpt
+
+
+def _evidence_metadata(item: CollectedItem) -> dict[str, object]:
+    evidence_keys = {
+        "transcript_status",
+        "transcript_video_id",
+        "transcript_language",
+        "transcript_excerpt",
+        "transcript_segments_sample",
+        "transcript_provider",
+        "transcript_note",
+        "transcript_error",
+        "transcript_error_type",
+        "transcript_is_generated",
+    }
+    evidence = {key: value for key, value in item.metadata.items() if key in evidence_keys}
+    if item.source_type == "youtube" and "transcript_status" not in evidence:
+        evidence["transcript_status"] = "not_attempted"
+        evidence["transcript_note"] = "transcript_status=not_attempted; this YouTube item has not passed P0.2 enrichment"
+    return evidence
+
+
 def _coerce_tags(raw: object) -> list[str]:
     if isinstance(raw, list):
         return [str(item) for item in raw if str(item).strip()]
@@ -278,7 +338,7 @@ def _fallback_translation(item: CollectedItem) -> str:
     excerpt = item.raw_excerpt.strip() or item.title
     if item.language.lower().startswith("zh"):
         return excerpt
-    return f"（中文翻译草稿 / 需 LLM 精修）该条目的原文大意是：{excerpt[:260]}"
+    return f"中文解释：{excerpt[:300]}"
 
 
 def _fallback_summary(item: CollectedItem, section_id: str) -> str:
@@ -298,6 +358,11 @@ def _fallback_why_it_matters(item: CollectedItem, section_id: str) -> str:
     if section_id == "tool_engineering":
         return "工具链变化会直接影响个人 builder 的开发、调试、自动化和发布流程。"
     if section_id == "video":
+        status = str(item.metadata.get("transcript_status", ""))
+        if status == "fetched":
+            return "该视频已自动抓取公开字幕，正文摘录来自 transcript，因此比 RSS 描述更适合做观点/实践提炼。"
+        if status:
+            return "系统已尝试自动抓取字幕但未成功；本条显式标记为低置信 feed fallback，避免把 RSS 描述伪装成 transcript。"
         return "视频访谈通常包含实践细节；当前先保留 feed 摘要，后续应接字幕提取。"
     if section_id == "social_blogs":
         return "独立 builder/工程师的博客与社媒往往比官方发布更早暴露真实用法和反直觉观点。"

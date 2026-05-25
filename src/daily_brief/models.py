@@ -85,6 +85,8 @@ class BriefItem:
     why_it_matters: str
     builder_takeaway: str
     source_links: list[str]
+    original_title: str = ""
+    one_sentence: str = ""
     dedup_status: str = "new"
     duplicate_of: str | None = None
     relation_ids: list[str] = field(default_factory=list)
@@ -94,6 +96,7 @@ class BriefItem:
     source_title: str = ""
     published_at: str = ""
     tags: list[str] = field(default_factory=list)
+    evidence_metadata: JsonDict = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         for field_name in (

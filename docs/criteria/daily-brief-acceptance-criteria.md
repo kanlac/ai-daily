@@ -39,7 +39,7 @@ Pass if:
 
 **Current status**
 
-- PASS for 2026-05-19 run: 11/11 configured real sources succeeded, 32 collected events, 26 report items.
+- PASS for 2026-05-19 final run: 11/11 configured real sources succeeded, 32 collected events, 26 report items.
 
 ### P0.2 YouTube subtitles/transcripts are automatically fetched
 
@@ -60,7 +60,7 @@ Run a daily report with at least one YouTube item. Pass if each retained YouTube
 
 **Current status**
 
-- NOT PASS yet. Current implementation uses YouTube channel RSS title/description only. This is the next P0 implementation task.
+- PASS for 2026-05-19 final run. All 3 retained YouTube items have `transcript_status=fetched`, `transcript_language=en`, non-empty transcript excerpts, and visible transcript evidence notes in the HTML.
 
 ### P0.3 Report is agent-generated, not productized LLM integration
 
@@ -80,7 +80,7 @@ Pass if:
 
 **Current status**
 
-- PARTIAL PASS. Code has deterministic fallback and no LLM dependency. Codex automation prompt still needs to explicitly describe final agent synthesis.
+- PASS. Code has deterministic fallback, no OpenAI/Anthropic provider dependency, no required model API key, and `.codex/daily-news-push.md` explicitly assigns final editorial synthesis/translation/ranking to the Codex/Hermes automation task.
 
 ### P0.4 HTML report is the primary artifact
 
@@ -101,7 +101,7 @@ Pass if generated HTML contains:
 
 **Current status**
 
-- PASS for 2026-05-19 run.
+- PASS for 2026-05-19 final run.
 
 ### P0.5 Source links and evidence traceability
 
@@ -122,7 +122,7 @@ Pass if every `BriefItem` has:
 
 **Current status**
 
-- PASS for RSS/GitHub/Reddit evidence. YouTube transcript-specific traceability is not P0.2-complete yet.
+- PASS for 2026-05-19 final run. RSS/GitHub/Reddit evidence has source links and original excerpts; YouTube evidence now uses transcript-derived excerpts with visible `transcript_status=fetched` metadata.
 
 ### P0.6 Memory, dedup, and cross-day association
 
@@ -208,7 +208,7 @@ Pass if:
 
 **Current status**
 
-- PASS for 2026-05-19 run: 7 loops, latest score 8.39, min latest dimension 8.21.
+- PASS for 2026-05-19 final run: 7 loops, latest score 8.39, min latest dimension 8.21.
 
 ---
 
@@ -268,19 +268,6 @@ Pass if:
 
 ---
 
-## Immediate next P0 task
+## Current next work after P0
 
-Implement **P0.2 automatic YouTube transcript fetch**.
-
-Suggested implementation path:
-
-1. Add optional dependency path for `youtube-transcript-api` or vendor a tiny adapter that shells out to the existing `youtube-content` helper script when available.
-2. Add `src/daily_brief/collectors/youtube_transcripts.py`.
-3. Extend YouTube collector to attach transcript metadata to `CollectedItem.metadata`:
-   - `transcript_status`
-   - `transcript_language`
-   - `transcript_excerpt`
-   - `transcript_segments_sample`
-4. Update renderer/report builder to display transcript-derived excerpt and low-confidence fallback notes.
-5. Add tests with a fake transcript provider; no network dependency in unit tests.
-6. Run a real YouTube report and verify each YouTube item has a transcript status.
+P0 is complete for the 2026-05-19 final run. The next work is P1 quality: stronger editorial ranking/pruning, timestamped YouTube chapter summaries, optional safe browser-use collection for public pages, and richer product-idea opportunity scoring.
