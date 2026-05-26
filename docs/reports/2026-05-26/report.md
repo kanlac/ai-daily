@@ -1,0 +1,68 @@
+# AI 日报｜2026-05-26
+
+## 一句话总览
+
+过去 24 小时的主线不是单一模型发布，而是 AI 进入“制度化 + 成本战 + Agent 工程化”的阶段：梵蒂冈把 AI 监管推到全球公共议程，OpenAI 继续扩张内容合作，DeepSeek 用 V4-Pro 永久降价压低推理成本，Google/Anthropic/Notion/Hugging Face 等围绕 Agent 的运行、审计、协作和术语体系继续补齐基础设施。
+
+## 最重要的 5 条
+
+### 1. 教皇 Leo XIV 首份通谕聚焦 AI，呼吁强监管；Anthropic 联合创始人在梵蒂冈发言
+
+- **发生了什么**：Pope Leo XIV 发布首份重要通谕《Magnifica humanitas》，将 AI 描述为会影响人类尊严、工作、战争与权力分配的技术，并呼吁对 AI 进行强有力监管、透明治理与以公共利益为中心的开发。Anthropic 联合创始人 Chris Olah 受邀在梵蒂冈发布会上发言，强调前沿 AI 实验室受商业、地缘政治、声誉等激励影响，AI 的重大方向不能只由大型科技公司内部决定。
+- **为什么重要**：这是 AI 议题从产业/监管部门进一步进入宗教与全球伦理公共议程的标志。和普通政策新闻不同，通谕会影响全球天主教机构、教育系统、医疗/公益组织以及部分政策讨论的价值框架。
+- **影响判断**：AI 公司需要预期“外部监督”会成为主流叙事：不仅是合规审查，还包括劳动、战争、人类尊严、儿童保护和信息生态。对产品团队来说，高风险功能的安全说明、审计记录、用户申诉和可解释治理材料会越来越像必需品。
+- **来源**：[AP News](https://apnews.com/article/pope-ai-tech-trump-vatican-anthropic-d92d0108730d146baa46da041b8523da)、[BBC](https://www.bbc.com/news/articles/cedppn6002jo)、[Anthropic 官方发言全文](https://www.anthropic.com/news/chris-olah-pope-leo-encyclical)、[Reuters](https://www.reuters.com/world/europe/anthropics-olah-says-ai-must-be-guided-outside-big-tech-2026-05-25/)
+
+### 2. OpenAI 与巴西 Grupo Folha、Grupo UOL 达成内容合作
+
+- **发生了什么**：OpenAI 宣布与巴西媒体集团 Grupo Folha 和 Grupo UOL 建立战略内容合作，把可信巴西新闻内容引入 ChatGPT，并强调归因、透明和新闻访问。Folha 也发布英文报道，称这是巴西首个此类 OpenAI 内容供应协议。
+- **为什么重要**：这延续了 OpenAI 与新闻出版机构签授权/内容合作的路线，但地理上进一步进入葡语和拉美市场。对 ChatGPT 来说，本地权威内容是提升搜索、答案可信度和本地化体验的关键。
+- **影响判断**：媒体内容授权将继续成为大模型平台的“分发与合规护城河”。创业公司如果做 AI 搜索、摘要、垂直问答，需要更早设计来源归因、版权边界和内容分成机制，否则会在渠道和法律上同时受压。
+- **来源**：[OpenAI 官方公告](https://openai.com/index/grupo-folha-grupo-uol-partnership)、[Folha de S.Paulo 英文报道](https://www1.folha.uol.com.br/internacional/en/business/2026/05/folha-and-uol-sign-brazils-first-openai-deal-to-supply-content-to-chatgpt.shtml)
+
+### 3. DeepSeek V4-Pro 永久降价 75%，模型 API 价格战继续升级
+
+- **发生了什么**：据 InfoWorld、The Decoder 等报道，DeepSeek 将 V4-Pro 的 75% 折扣转为永久价格调整。InfoWorld 报道称 V4-Pro 新价格从每百万 tokens 约 0.003625 美元（缓存命中场景）到 0.87 美元（输出）不等；The Decoder 将其与 GPT-5.5、Opus 4.7 等价格对比，指出输出 token 价差可达数十倍。
+- **为什么重要**：Agent、长上下文分析、代码自动化和企业批处理都是 token 密集型场景。模型能力差距只要足够接近，推理成本就会直接改变架构选择、毛利和产品定价。
+- **影响判断**：基础模型会继续从“最强模型”竞争转向“足够强 + 足够便宜 + 可被工程化调用”的竞争。开发者应把高 token 任务拆成可替换模型层：高风险/高价值步骤使用最强模型，批量检索、草稿、代码扫描、数据清洗等步骤用低成本模型承接。
+- **来源**：[InfoWorld](https://www.infoworld.com/article/4176709/deepseeks-steep-v4-pro-price-cut-escalates-ai-pricing-war.html)、[The Decoder](https://the-decoder.com/deepseek-makes-its-75-percent-discount-permanent-pricing-output-tokens-at-least-34x-below-gpt-5-5/)、[Chosun English](https://www.chosun.com/english/industry-en/2026/05/26/VATIMXRPQFHPHPHR6FHBG4Q6XA/)
+
+### 4. Google 开源 Agent Executor（AX），Agent 从 demo 走向可恢复、可审计的运行时
+
+- **发生了什么**：InfoWorld 报道 Google 推出开源 Agent Executor；Google GitHub 仓库 `google/ax` 的 README 将 AX 定义为分布式 Agent runtime，用于协调 agentic loops、事件日志、执行恢复、本地/远程 actor 通信，并提供审计与策略控制。
+- **为什么重要**：Agent 产品最大问题不再只是“模型会不会调用工具”，而是如何在生产环境里处理失败恢复、状态一致性、事件日志、隔离执行、权限与审计。AX 这类 runtime 说明 Agent 工程栈正在形成类似后端服务框架的基础层。
+- **影响判断**：未来 Agent 竞争会分成两层：模型能力是一层，运行时/编排/审计/权限/成本控制是另一层。对开发者来说，应避免把 Agent 做成不可追踪的 prompt loop；最少需要事件日志、工具调用策略、失败重放和人工接管点。
+- **来源**：[InfoWorld](https://www.infoworld.com/article/4176801/google-adds-open-source-agent-executor-to-support-ai-agents-in-production.html)、[Google AX GitHub 仓库](https://github.com/google/ax)
+
+### 5. Anthropic 为 Claude 增加 28 个安全与合规集成，企业 AI 治理继续产品化
+
+- **发生了什么**：Help Net Security 报道 Anthropic 推出 28 个安全与合规工具集成，帮助 IT 与安全团队像管理其他企业应用一样管理 Claude。报道提到 Claude Compliance API 可让企业访问 Claude Enterprise 的会话内容、上传文件、项目，以及 Claude Enterprise/Claude Platform 的登录、管理操作、配置变更等活动事件，用于 DLP、监控、审计和治理。
+- **为什么重要**：企业部署 AI 的瓶颈常常不是模型能力，而是数据外泄、影子 AI、合规留痕、审计取证和权限边界。Claude 把这些能力接口化，说明“AI 应用治理”正在从咨询/流程变成平台功能。
+- **影响判断**：企业买 AI 工具时会越来越看重日志、DLP、SIEM/数据治理集成，而不只是上下文窗口或 benchmark。AI 产品如果要进入企业客户，必须把管理员、合规官、安全团队当成一等用户。
+- **来源**：[Help Net Security](https://www.helpnetsecurity.com/2026/05/25/anthropic-security-compliance-integrations-claude/)、[BankInfoSecurity：Claude audit logs 相关报道](https://www.bankinfosecurity.com/everyone-suddenly-wants-claudes-audit-logs-a-31753)
+
+## 其他值得关注
+
+- **xAI 的 Grok Build 开始面向 SuperGrok 与 X Premium+ 用户 beta**：Reuters/TradingView 快讯称 Grok Build 已向相关付费用户开放 beta。若产品定位接近“用自然语言构建应用/工作流”，它会把 xAI 从聊天入口进一步推向 AI 应用生成与开发者工具。来源：[TradingView / Reuters](https://www.tradingview.com/news/reuters.com,2026:newsml_FWN42208X:0-xai-says-grok-build-is-now-available-in-beta-for-all-supergrok-and-x-premium-users/)
+- **xAI 数据中心发电机/燃气轮机争议继续发酵**：TechCrunch 此前报道 xAI 因数据中心发电机被起诉，Yahoo 报道 NAACP 起诉称相关燃气轮机让社区面临风险；Mississippi Today 报道美国司法部可能介入相关诉讼。AI 基础设施的能源、污染和本地社区问题正在成为模型扩张的现实约束。来源：[TechCrunch](https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/)、[Yahoo](https://www.yahoo.com/news/us/articles/naacp-sues-elon-musks-xai-224000081.html)、[Mississippi Today](https://mississippitoday.org/2026/05/25/elon-musk-xai-dater-center-mississippi/)
+- **Google DeepMind 的 AlphaProof Nexus 据报道解决多个开放数学问题**：The Decoder 报道称 AlphaProof Nexus 通过 Gemini 3.1 Pro 生成 Lean 证明步骤，并用编译器验证，解决 353 个 Erdős 开放问题中的 9 个，其中包括两个困扰数学家 56 年的问题；但整体成功率约 2.5%。这说明“形式化验证 + LLM”在科研辅助上有清晰价值，但还不是通用数学家。来源：[The Decoder](https://the-decoder.com/google-deepminds-alphaproof-nexus-solves-decades-old-math-problems-for-a-few-hundred-dollars/)
+- **Hugging Face 发布 Agent 术语梳理文章**：Hugging Face 在《Harness, Scaffold, and the AI Agent Terms Worth Getting Right》中梳理 model、scaffolding、harness、agent、context engineering、policy、tool use、skills、sub-agents、RL environment 等概念。对团队对齐 Agent 设计语言很实用。来源：[Hugging Face Blog](https://huggingface.co/blog/agent-glossary)
+- **Notion 的 Developer Platform 被继续解读为“AI agent 工作台”**：Tech Times 报道 Notion 将 Claude Code、Cursor、OpenAI Codex、Decagon 等外部 Agent 作为可追踪协作者接入 workspace；官方发布页显示 5 月 13 日推出 Developer Platform。虽然官方发布时间早于 48 小时，但这条本周仍值得产品团队跟进：文档、任务、代码执行、外部数据同步可能会融合成 Agent 协作界面。来源：[Tech Times](https://www.techtimes.com/articles/317092/20260525/notion-opens-workspace-claude-code-cursor-codex-native-ai-agents.htm)、[Notion 官方发布](https://www.notion.com/releases/2026-05-13)
+- **Anthropic Mythos 相关报道显示“受限安全模型/Claude Code”成为安全圈焦点**：BleepingComputer 报道称 Anthropic 受限 Claude Mythos 模型可能进入 Claude Code；Security Boulevard 报道 Mythos 发现 10,000 个安全缺陷并暴露补丁障碍。由于部分信息来自二手/行业媒体，应按“据报道”处理，但方向值得关注：AI 编程工具与漏洞发现/修复工作流正在合流。来源：[BleepingComputer](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropics-restricted-claude-mythos-model-may-be-coming-to-claude-code/)、[Security Boulevard](https://securityboulevard.com/2026/05/anthropics-mythos-finds-10000-security-flaws-exposes-patching-obstacles/)
+- **据 Yahoo Finance，Fiserv 与 OpenAI 合作把前沿 AI 引入金融平台**：报道称 Fiserv 与 OpenAI 合作，将 frontier AI 集成进金融平台。金融服务是高合规、高流程密度行业，一旦落地，会进一步验证“AI agent + 审计 + 人工复核”的企业路径。来源：[Yahoo Finance](https://finance.yahoo.com/sectors/technology/articles/fiserv-fisv-partners-openai-integrate-195420754.html)
+- **Google I/O 周发布的 Gemini Omni 与 Gemini for Science 仍在本周持续被讨论**：Google 官方介绍 Gemini Omni 可从多模态输入生成/编辑内容；Gemini for Science 则是一组面向科研探索的工具与实验。虽然官方发布时间为 5 月 19 日，不属于严格 24 小时新闻，但它们构成了本周 Google AI 叙事的背景。来源：[Gemini Omni 官方博客](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/)、[Gemini for Science 官方博客](https://blog.google/innovation-and-ai/technology/research/gemini-for-science-io-2026/)
+- **Qwen/阿里方向：Qwen3.7-Max 与自研芯片仍是中国大模型竞争的关键背景**：VentureBeat、SCMP 等上周报道阿里 Qwen3.7-Max、Zhenwu M890 芯片及“长时间自主运行/外部 harness 支持”等能力。虽非过去 48 小时内发布，但与 DeepSeek 价格战一起，显示中国厂商正同时从模型、芯片、Agent 工具链和价格四条线施压。来源：[VentureBeat](https://venturebeat.com/technology/alibabas-proprietary-qwen3-7-max-can-run-for-35-hours-autonomously-and-supports-external-harnesses-like-anthropics-claude-code)、[SCMP](https://www.scmp.com/tech/big-tech/article/3354212/alibaba-unveils-new-qwen-model-custom-chips-bid-become-chinas-ai-factory)
+
+## 趋势判断
+
+- **AI 监管叙事从“政府规则”扩大为“社会授权”**：梵蒂冈、媒体机构、大学、安全组织、地方社区都在进入 AI 治理议题。未来高影响 AI 产品不仅要满足法律合规，还要能回答“谁受益、谁承担风险、谁能监督”。
+- **推理成本会继续下行，Agent 经济账会重算**：DeepSeek 这类价格战会让更多高 token 工作流变得可行，但也会压缩基础模型利润。应用层应把成本监控做成核心指标，而不是上线后再补。
+- **Agent 工程化成为新基础设施竞争点**：Google AX、Notion 外部 Agent、Claude 合规 API、Hugging Face 术语梳理都指向同一件事：Agent 需要运行时、日志、权限、协作界面和统一语言，而不是单个聊天框。
+- **AI 基建的物理约束会外溢到品牌和合规风险**：xAI 数据中心争议提醒行业，算力扩张不只是 GPU 采购，还包括能源、污染、选址、当地社区和诉讼风险。
+- **内容合作会继续塑造 AI 搜索/问答体验**：OpenAI 与巴西媒体合作说明，本地高质量内容和授权关系会成为国际化 AI 产品的重要资产。
+
+## 我建议重点跟进
+
+- **产品/开发者**：立刻建立“多模型成本-质量路由”实验，把 DeepSeek V4-Pro 等低价模型用于高 token、低风险、可自动验证任务；关键路径保留强模型兜底。
+- **企业/安全团队**：为所有 Agent 和 AI 助手补上审计日志、DLP、权限边界、工具调用白名单、失败重放与人工接管机制；优先评估 Claude Compliance API、AX 这类治理/运行时能力。
+- **创业者/内容方**：关注 OpenAI 与本地媒体合作的条款模式，提前设计内容授权、引用归因、流量回流和商业分成方案，避免在 AI 搜索入口被动边缘化。
