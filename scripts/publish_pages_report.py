@@ -127,6 +127,7 @@ def render_markdown(markdown: str) -> str:
     list_items: list[str] = []
     in_code = False
     code_lines: list[str] = []
+    skipped_leading_h1 = False
 
     def flush_paragraph() -> None:
         nonlocal paragraph
@@ -172,6 +173,10 @@ def render_markdown(markdown: str) -> str:
             flush_list()
             level = min(4, max(1, len(stripped) - len(stripped.lstrip("#"))))
             text = stripped.lstrip("#").strip()
+            if level == 1 and not blocks and not skipped_leading_h1:
+                # The page hero already renders the report title.
+                skipped_leading_h1 = True
+                continue
             if level == 1:
                 # The page already has an H1 hero title; downgrade body H1.
                 level = 2
