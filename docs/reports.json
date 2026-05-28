@@ -1,8 +1,14 @@
 {
   "repo": "ai-daily",
   "homepage": "https://kanlac.github.io/ai-daily",
-  "updated_at": "2026-05-26T01:26:38.208512+00:00",
+  "updated_at": "2026-05-28T00:17:25.332727+00:00",
   "reports": [
+    {
+      "date": "2026-05-28",
+      "title": "AI 日报｜2026-05-28",
+      "summary": "过去 24 小时（少数延伸至 48 小时）的 AI 主线很清楚：AI 正从“模型能力竞赛”进入“可收费、可治理、可嵌入业务流程”的阶段。OpenAI 同时推进选举安全和 Codex 企业/Agent 案例，Meta 开始测试 AI 订阅，Google 继续修补 AI Search 与内容生态关系，Snowflake 与 AWS 的 60 亿美元协议显示 A…",
+      "path": "reports/2026-05-28/"
+    },
     {
       "date": "2026-05-26",
       "title": "AI 日报｜2026-05-26",
