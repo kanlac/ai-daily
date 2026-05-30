@@ -1,8 +1,14 @@
 {
   "repo": "ai-daily",
   "homepage": "https://kanlac.github.io/ai-daily",
-  "updated_at": "2026-05-29T00:24:15.085012+00:00",
+  "updated_at": "2026-05-30T00:15:13.040371+00:00",
   "reports": [
+    {
+      "date": "2026-05-30",
+      "title": "AI 日报｜2026-05-30",
+      "summary": "过去 24 小时（周六早间扩展至近 48 小时）的 AI 主线是：Anthropic 把“超大额融资 + 高端模型 + Claude Code 工作流”正式打包成资本与产品叙事；Google 继续把 I/O 2026 的 Gemini Omni / Gemini 3.5 能力样例推向开发者和消费者；OpenAI 把 AI 医疗、Codex、第三方评测和生物…",
+      "path": "reports/2026-05-30/"
+    },
     {
       "date": "2026-05-29",
       "title": "AI 日报｜2026-05-29",
