@@ -1,8 +1,14 @@
 {
   "repo": "ai-daily",
   "homepage": "https://kanlac.github.io/ai-daily",
-  "updated_at": "2026-05-30T00:15:13.040371+00:00",
+  "updated_at": "2026-05-31T00:13:31.611253+00:00",
   "reports": [
+    {
+      "date": "2026-05-31",
+      "title": "AI 日报｜2026-05-31",
+      "summary": "过去 24 小时（周末扩展至近 48 小时）的 AI 主线不是单一“大模型发布”，而是 Agent 成本治理、AI 编程工作流、端侧/可穿戴入口、安全攻防与合规审计 同时升温：GitHub Copilot 的用量计费引发开发者成本焦虑；OpenAI Codex、Claude Code 与企业案例显示编码 Agent 正从 IDE 插件走向可操作电脑和组织流…",
+      "path": "reports/2026-05-31/"
+    },
     {
       "date": "2026-05-30",
       "title": "AI 日报｜2026-05-30",
