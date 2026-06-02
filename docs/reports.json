@@ -1,8 +1,14 @@
 {
   "repo": "ai-daily",
   "homepage": "https://kanlac.github.io/ai-daily",
-  "updated_at": "2026-06-01T00:18:43.727640+00:00",
+  "updated_at": "2026-06-02T00:12:55.494679+00:00",
   "reports": [
+    {
+      "date": "2026-06-02",
+      "title": "AI 日报｜2026-06-02",
+      "summary": "过去 24 小时的 AI 主线从“模型发布”明显转向 资本市场、算力基建、云分发、端侧 Agent 与安全监管：Anthropic 提交保密 S-1，Alphabet 计划用 800 亿美元股票融资补 AI 算力，OpenAI/Oracle 的 Stargate Michigan 1GW 数据中心破土并同时把 frontier models 与 Codex…",
+      "path": "reports/2026-06-02/"
+    },
     {
       "date": "2026-06-01",
       "title": "AI 日报｜2026-06-01",
