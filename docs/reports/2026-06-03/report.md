@@ -1,0 +1,71 @@
+# AI 日报｜2026-06-03
+
+## 一句话总览
+
+过去 24 小时的 AI 主线是 **Agent 产品化、网络安全前沿化、模型成本竞争和监管提前介入**：Anthropic 把 Project Glasswing / Claude Mythos 扩到 15+ 国家约 150 个关键组织，美国白宫发布行政令要求对前沿模型进行自愿预发布安全评估；Microsoft 在 Build 上同时推自研模型、Scout 个人 Agent、Agent 控制/评估框架和 Solara 概念平台，OpenAI 则把 Codex 从“写代码”扩成面向分析师、销售、设计、投行等岗位的通用工作应用；中国侧，Qwen3.7-Plus 被报道强调多模态 Agent 能力和平台化交付，字节豆包也开始从免费流量走向订阅变现。
+
+## 最重要的 5 条
+
+### 1. Anthropic 扩大 Project Glasswing：Claude Mythos 进入 15+ 国家约 150 个关键组织
+
+- **发生了什么**：Anthropic 官方宣布，将 Project Glasswing 扩展到约 150 个新组织，覆盖 15 个以上国家；新增伙伴以电力、水务、医疗、通信、硬件、关键开源维护者等关键基础设施/供应链为主，需满足安全要求后才能访问 Claude Mythos Preview。Anthropic 称，4 月首批约 50 个伙伴使用 Mythos 扫描代码库，已发现超过 10,000 个高危或关键级安全漏洞；公司还判断，多数新伙伴一旦遭遇重大攻击，影响人数可能超过 1 亿。
+- **为什么重要**：这标志着前沿模型的“网络攻防能力”已从论文和红队评估进入真实关键基础设施。Mythos 这类模型既能帮助防御方更快发现漏洞，也可能让攻击者更快规模化利用漏洞，因此安全问题不再只是模型拒答或内容审核，而是软件供应链、漏洞披露、补丁验证和国家安全。
+- **影响判断**：短期看，关键行业会更积极引入 AI 漏洞扫描、自动修补和安全验证流程；中期看，模型公司需要为双用途能力建立分级访问、可信伙伴、审计和误用防护机制。对安全创业公司来说，“发现漏洞”之后的验证、优先级排序、补丁生成、补丁部署和责任归属会成为更大的市场。
+- **来源**：[Anthropic 官方公告](https://www.anthropic.com/news/expanding-project-glasswing)、[CNBC](https://www.cnbc.com/2026/06/02/anthropic-mythos-ai-project-glasswing.html)
+
+### 2. 美国白宫发布 AI 行政令：前沿模型可自愿接受政府预发布评估
+
+- **发生了什么**：白宫发布《Promoting Advanced Artificial Intelligence Innovation and Security》行政令，要求政府部门在 30-60 天内推进 AI 网络防御、AI cybersecurity clearinghouse、前沿模型 cyber capabilities 分类基准等工作；其中最关键的是建立自愿框架，让 AI 开发者可与政府协作判断模型是否属于“covered frontier model”，并在计划向受信伙伴发布前最多 30 天向政府提供访问，以评估高级网络能力。行政令同时强调，这不应被解释为强制许可、预审或发布许可制度。
+- **为什么重要**：美国没有直接走“强制牌照”路线，而是用国家安全和网络防御名义，把政府评估提前嵌入前沿模型发布流程。这相当于在高能力模型发布前增加一个“自愿但政治压力很强”的安全通道。
+- **影响判断**：OpenAI、Anthropic、Google、xAI、Meta 等公司接下来会面对更明确的政府早期接触和机密评估请求；企业客户也会更关注供应商是否参与此类评估、模型是否被归入 covered frontier model。对全球监管而言，美国路径仍偏“创新优先 + 自愿协作”，但前沿模型的网络能力会成为最先被实质监管的能力域。
+- **来源**：[白宫行政令](https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/)、[CNBC](https://www.cnbc.com/2026/06/02/trump-executive-order-ai.html)
+
+### 3. Microsoft Build 把 Agent 放到核心：自研 MAI 模型、Scout、ACS/ASSERT 与 Solara 同时亮相
+
+- **发生了什么**：CNBC 报道称，Microsoft 在 Build 发布 MAI-Code-1-Flash、MAI-Thinking-1 等自研模型，以降低对 OpenAI 等第三方模型的依赖并降低开发者成本；MAI-Code-1-Flash 将进入 GitHub Copilot 和 VS Code，MAI-Thinking-1 通过 Microsoft Foundry 私测。TechCrunch 报道称，Microsoft 还推出 Scout，一个基于 OpenClaw 思路、面向 Microsoft 365 的 always-on 个人 Agent；同时发布开源 Agent Control Specification（ACS）和 ASSERT，用自然语言规格生成 AI 行为测试、把 Agent 权限/审批/日志策略做成可移植控制层。Ars Technica 还报道了 Android/AOSP 基础的 Project Solara 概念平台，面向未来“Agent-first devices”。
+- **为什么重要**：Microsoft 这次不是单点发 Copilot 功能，而是在模型、Agent 产品、开发者控制面、评估体系、端侧/设备平台上同时铺路。这说明企业 Agent 的竞争已经从“谁的模型最强”扩展到“谁能把模型、工具、权限、身份、评估、设备和云平台组成完整栈”。
+- **影响判断**：短期看，Microsoft 会继续把 AI 成本和 OpenAI 依赖问题内部化，用自研/小模型承接大量低成本任务；中期看，ACS/ASSERT 这类控制与测试框架可能比 demo 更关键，因为企业真正部署 Agent 时最怕越权、误操作和不可审计。开发者应重点关注 Agent policy file、行为回归测试、工具调用日志和人工审批点。
+- **来源**：[CNBC](https://www.cnbc.com/2026/06/02/microsoft-unveils-new-ai-models-lessen-reliance-on-openai-lower-costs.html)、[TechCrunch - Scout](https://techcrunch.com/2026/06/02/microsoft-launches-scout-an-openclaw-inspired-personal-assistant/)、[TechCrunch - ACS](https://techcrunch.com/2026/06/02/microsoft-offers-devs-a-better-way-to-control-ai-agent-behavior/)、[TechCrunch - ASSERT](https://techcrunch.com/2026/06/02/new-microsoft-tool-lets-devs-spin-up-ai-behavior-tests-using-text-descriptions/)、[Ars Technica - Solara](https://arstechnica.com/gadgets/2026/06/microsofts-project-solara-is-an-android-os-designed-for-agents-instead-of-apps/)
+
+### 4. OpenAI 扩展 Codex：从开发者工具转向“每个岗位、工具和工作流”的通用生产力应用
+
+- **发生了什么**：OpenAI RSS 显示，公司发布了“Codex for every role, tool, and workflow”和“Codex is becoming a productivity tool for everyone”两篇更新，称新增 Codex plugins、sites、annotations 等能力，帮助分析师、营销、设计、投资等团队用 AI 完成研究、数据分析、工作流自动化和内容创建。The Decoder 报道称，OpenAI 为 Codex 推出面向数据分析、销售、产品设计、投行等角色的插件，合计 62 个 app、110 项能力；Sites 可把分析/计划发布成交互式网站，Annotations 可在文档或表格局部标注修改；OpenAI 还称 Codex 周活用户超过 500 万，非开发者用户占约五分之一且增速高于开发者。
+- **为什么重要**：Codex 的定位正在从“AI 编程工具”转向“让任何知识工作者把数据、文档、表格、代码、网页和应用串起来的工作台”。这会让 AI 编程工具和通用办公 Agent 的边界变得模糊，也会直接冲击 BI、自动化、内部工具、低代码和咨询/投行业务流程。
+- **影响判断**：短期看，Codex 会继续吸收非工程团队的长尾自动化需求；中期看，真正的竞争点会变成插件生态、企业数据连接、权限管理、产物发布和可审计工作流。对创业者来说，单点“AI 写代码”壁垒下降，围绕特定行业流程、数据源、合规和团队协作的垂直 Agent 更值得做。
+- **来源**：[OpenAI - Codex for every role](https://openai.com/index/codex-for-every-role-tool-workflow)、[OpenAI - knowledge work](https://openai.com/index/codex-for-knowledge-work)、[The Decoder](https://the-decoder.com/openai-expands-codex-with-role-specific-plugins-to-build-a-general-purpose-app-for-non-developers/)
+
+### 5. 据报道，阿里 Qwen3.7-Plus 上线：主打多模态 Agent、工具调用与自主迭代
+
+- **发生了什么**：据 MarkTechPost 报道，阿里 Qwen 团队发布 Qwen3.7-Plus，并通过阿里云 Bailian / Model Studio 向开发者提供；该模型支持图像、视频和文本理解，并强调 deep reasoning、self-programming、tool invocation、verification/testing、autonomous iteration 等 Agent 能力。报道还提到，Qwen3.7-Plus 更偏视觉理解而非生成，文本侧 Qwen3.7-Max 则支撑推理能力。
+- **为什么重要**：中国模型竞争正在从“开源权重 + benchmark”扩展到“多模态 Agent + 平台化 API”。如果 Qwen 能在视觉理解、工具调用和长任务自动迭代上保持稳定体验，海外开发者和企业会把它纳入多模型路由，而不只是把中国模型视为开源备选。
+- **影响判断**：短期看，Qwen 会继续用平台能力争夺多模态/Agent 应用开发者；中期看，proprietary 与 open-weight 路线会并行：前者利于商业化和平台集成，后者利于生态扩散。开发者应关注实际延迟、上下文、工具调用稳定性、跨语言能力、数据合规和 API 可用性，而不是只看榜单。
+- **来源**：[MarkTechPost](https://www.marktechpost.com/2026/06/02/alibabas-qwen-team-launches-qwen3-7-plus-adding-vision-deep-reasoning-tool-invocation-and-autonomous-iteration-on-the-bailian-platform/)
+
+## 其他值得关注
+
+- **NVIDIA 与 Microsoft 扩大 Agentic AI 全栈合作**：NVIDIA 官方称，双方将在 Windows 设备、Azure 云和本地部署上提供统一 Agent 栈，包括 RTX Spark、DGX Station for Windows、Foundry 上的 NVIDIA 开放模型、OpenShell 安全运行时、NVIDIA Agent Toolkit 和 NemoClaw blueprints。核心方向是让开发者在 PC、云和本地环境中构建、调优和运行 Agent。来源：[NVIDIA](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/)
+- **NVIDIA Jetson 把 NemoClaw 带到机器人、检测和工业自动化边缘端**：NVIDIA 发布 JetPack 7.2 与 Jetson 上的 NemoClaw 支持，强调 agent skills、Yocto 支持、CUDA 13、Jetson Thor 上的 MIG，以及面向物理世界的视觉推理 Agent。来源：[NVIDIA](https://blogs.nvidia.com/blog/jetson-agentic-ai-physical-world/)
+- **OpenAI + Travelers 将 AI claims assistant 推向全美理赔流程**：OpenAI 官方 RSS 描述称，Travelers 使用 OpenAI 构建 AI-powered Claim Assistant，为客户提交理赔提供 24/7 支持，并在高峰需求期扩展运营能力。这是保险行业把生成式 AI 嵌入高频客户流程的案例。来源：[OpenAI](https://openai.com/index/travelers)
+- **OpenAI 呼吁全球青年 AI 安全行动**：OpenAI 官方更新称，公司提出建立国际机构来加强面向青少年的 AI safeguards、标准与机会建设。结合近期围绕未成年人使用 AI 的诉讼和监管压力，青少年安全会成为消费级 AI 产品的核心合规议题。来源：[OpenAI](https://openai.com/index/advancing-youth-safety-and-opportunity-through-global-leadership)
+- **Google 在 Android 推出 fake call detection，瞄准 AI 深伪语音诈骗**：TechCrunch 报道称，Phone by Google 将面向 Android 12+ 设备推出 fake call detection，先从 Pixel 开始；该功能通过类似设备间“数字握手”的验证方式，识别联系人号码被伪造、语音被 AI 深伪模仿的场景。来源：[TechCrunch](https://techcrunch.com/2026/06/02/google-rolls-out-fake-call-detection-to-protect-against-ai-deepfake-impersonation-scams/)、[Ars Technica](https://arstechnica.com/gadgets/2026/06/google-announces-deepfake-call-detection-for-android-new-airdrop-device-support/)
+- **字节豆包据报将在 6 月下旬推出付费订阅**：TechNode 援引 36Kr 称，豆包预计在 6 月下旬推出付费订阅，App Store 已列出 68 元/月、200 元/月、500 元/月三档，付费功能聚焦 PPT 生成、数据分析、视频制作等高级生产力工具，同时基础聊天保持免费，并可能与抖音电商导流结合。来源：[TechNode](https://technode.com/2026/06/02/bytedances-doubao-to-launch-paid-plans-in-late-june-link-with-douyin-e-commerce-push/)
+- **Uber 给员工 AI 工具设月度预算上限**：TechCrunch 援引 Bloomberg 报道称，Uber 对 Claude Code、Cursor 等 agentic coding tool 设置每名员工/每工具每月 1,500 美元上限；此前公司 CTO 曾称年度 AI 预算 4 个月用完。企业 AI 正从“鼓励多用”进入“可追踪 ROI 与预算控制”。来源：[TechCrunch](https://techcrunch.com/2026/06/02/uber-caps-employee-ai-spending-after-blowing-through-budget-in-four-months/)
+- **Stanford HAI：AI 编码 Agent 组队表现反而下降**：Stanford HAI 介绍 CooperBench 研究称，在 650+ 真实软件工程任务上，两个 AI Agent 协作时表现不如单个 Agent，最先进编码 Agent 配对后能力几乎减半；问题不是代码能力，而是沟通、分工、冲突处理等“社会协作能力”。来源：[Stanford HAI](https://hai.stanford.edu/news/ai-coding-agents-fail-at-teamwork)
+- **H Company 发布 Holo3.1，本地 computer-use Agent 更靠近消费硬件**：Hugging Face 博客显示，Holo3.1 面向 web、desktop、mobile 多环境 computer-use，发布 0.8B、4B、9B、35B-A3B 等模型，并提供 FP8、Q4 GGUF、NVFP4 量化权重，强调本地/端侧推理和多 Agent 框架集成。来源：[Hugging Face](https://huggingface.co/blog/Hcompany/holo31)
+- **JetBrains 发布 Mellum2：12B MoE 开放模型，面向低延迟文本与代码任务**：JetBrains 在 Hugging Face 发布 Mellum2，称其是开放 Mixture-of-Experts 模型，适合代码、RAG、路由、工具选择、Agent 子任务和私有部署，强调比同量级模型更快的推理。来源：[Hugging Face](https://huggingface.co/blog/JetBrains/mellum2-launch)
+- **AI 安全公司 Cyera 据报接近 3 亿美元融资，估值 120 亿美元**：TechCrunch 报道称，数据安全公司 Cyera 正接近由 Evolution Equity Partners 领投的至少 3 亿美元融资，估值约 120 亿美元；公司称其客户包括五分之一 Fortune 500。AI 时代数据安全和数据治理资产继续被高估值定价。来源：[TechCrunch](https://techcrunch.com/2026/06/02/cyera-eyes-12b-valuation-at-80x-arr-multiple-despite-operating-losses/)
+- **Amazon 因 Ring 人脸识别功能遭集体诉讼**：TechCrunch 报道，Amazon 因 Ring “Familiar Faces”功能在西雅图面临集体诉讼，原告称该功能可能在未经同意情况下收集路人面部信息。AI 视觉识别在家庭摄像头场景的隐私边界仍会持续被诉讼检验。来源：[TechCrunch](https://techcrunch.com/2026/06/02/amazon-faces-class-action-lawsuit-over-ring-facial-recognition-feature/)
+
+## 趋势判断
+
+- **网络安全正在成为前沿模型监管的第一战场**：Anthropic Mythos、白宫行政令、AI cybersecurity clearinghouse 指向同一件事：政府和企业最先实质介入的不是聊天内容，而是模型是否能发现/利用软件漏洞、是否会改变攻防力量平衡。
+- **Agent 产品化的瓶颈从能力转向控制面**：Microsoft ACS/ASSERT、Scout 安全保护、NVIDIA OpenShell/NemoClaw、Stanford HAI 的协作失败研究都说明，Agent 要进入企业必须解决权限、审批、日志、回归测试、协作协议和失败恢复，而不是只堆更强模型。
+- **模型竞争进入“专用模型 + 低成本路由 + 平台集成”阶段**：Microsoft 自研 MAI、Qwen3.7-Plus、JetBrains Mellum2、Holo3.1 都在强调成本、延迟、专门能力和可部署性。未来企业不会只用一个 frontier model，而会用多模型路由把任务切给最便宜、最快、最合规的模型。
+- **AI ROI 从口号变成预算纪律**：Uber 设置 AI 工具预算上限、Copilot 用量计费争议、Codex/Scout 这类高频 Agent 的兴起，说明“每个任务到底花了多少 token/多少钱、带来多少产出”会成为企业 AI 平台的基础指标。
+- **消费级 AI 风险更贴近现实生活**：Google fake call detection、Ring 人脸识别诉讼、OpenAI 青少年安全倡议，说明 AI 安全不只是模型评测，也包括电话诈骗、家庭监控、未成年人保护、身份验证和数据同意。
+
+## 我建议重点跟进
+
+- **AI 产品/开发者**：为所有 Agent 上线“预算 + 权限 + 回归测试 + 审计日志”四件套：记录每次任务 token/成本、工具调用、是否触达敏感数据、人工审批点和失败回滚。
+- **创业者/安全团队**：重点看 AI 网络安全链条里“漏洞发现之后”的机会：漏洞验证、优先级排序、补丁生成、补丁测试、披露协同、开源维护者工作流和关键基础设施合规。
+- **企业平台团队**：开始做多模型路由和成本基准测试，把 OpenAI Codex、Microsoft MAI/Foundry、Qwen、Holo/Mellum 等按任务类型、延迟、成本、合规和可观测性纳入统一评估，而不是单纯采购一个大模型。
