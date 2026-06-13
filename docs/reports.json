@@ -1,8 +1,14 @@
 {
   "repo": "ai-daily",
   "homepage": "https://kanlac.github.io/ai-daily",
-  "updated_at": "2026-06-12T00:14:19.240462+00:00",
+  "updated_at": "2026-06-13T00:20:31.051245+00:00",
   "reports": [
+    {
+      "date": "2026-06-13",
+      "title": "AI 日报｜2026-06-13",
+      "summary": "过去 24-48 小时，AI 行业主线不是单一模型发布，而是 监管压力升温 + 编程/办公 Agent 进入“持久工作区、真实并发、可审计交付”阶段 + 中美欧企业继续抢占基础设施与行业入口：OpenAI 面临美国州检察长调查、美国银行监管机构据报加强 AI 审查，OpenAI/Anthropic/NVIDIA/GitHub/AWS 则同时把重点推向企业级…",
+      "path": "reports/2026-06-13/"
+    },
     {
       "date": "2026-06-12",
       "title": "AI 日报｜2026-06-12",
