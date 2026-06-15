@@ -1,8 +1,14 @@
 {
   "repo": "ai-daily",
   "homepage": "https://kanlac.github.io/ai-daily",
-  "updated_at": "2026-06-14T00:13:56.135069+00:00",
+  "updated_at": "2026-06-15T00:12:40.218573+00:00",
   "reports": [
+    {
+      "date": "2026-06-15",
+      "title": "AI 日报｜2026-06-15",
+      "summary": "过去 24 小时的 AI 主线不是单一模型发布，而是“前沿模型进入强监管与强交付阶段”：美国对 Anthropic Fable/Mythos 访问下达出口管制式限制，OpenAI 继续用伙伴网络推进企业落地，中国监管据报道要求 Meta 剥离 Manus，同时 Agent/Coding 工具链开始从“能用”走向“可治理、可评估、可审计”。",
+      "path": "reports/2026-06-15/"
+    },
     {
       "date": "2026-06-14",
       "title": "AI 日报｜2026-06-14",
