@@ -1,8 +1,14 @@
 {
   "repo": "ai-daily",
   "homepage": "https://kanlac.github.io/ai-daily",
-  "updated_at": "2026-07-21T00:15:47.563681+00:00",
+  "updated_at": "2026-08-12T00:12:28.065451+00:00",
   "reports": [
+    {
+      "date": "2026-08-12",
+      "title": "AI 日报｜2026-08-12",
+      "summary": "过去 24 小时的主线是：AI 产品开始更明确地进入“商业化 + 合规 + 基础设施落地”阶段——OpenAI 测试 ChatGPT 广告并把网络安全模型上架 AWS，Anthropic 推出 Claude 输出水印，Google 展示多模态医疗问诊研究，Nvidia 则继续把 AI 基础设施融资推向金融市场。",
+      "path": "reports/2026-08-12/"
+    },
     {
       "date": "2026-07-21",
       "title": "AI 日报｜2026-07-21",
